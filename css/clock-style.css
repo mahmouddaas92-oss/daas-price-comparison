@@ -1,0 +1,98 @@
+/* World Clock Styles */
+
+.timezone-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.8) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.timezone-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 12px 48px rgba(59, 130, 246, 0.2);
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(51, 65, 85, 0.95) 100%);
+}
+
+.digital-clock {
+  font-family: 'Courier New', monospace;
+  font-size: 48px;
+  font-weight: bold;
+  color: #3b82f6;
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  letter-spacing: 2px;
+  margin: 16px 0;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.city-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #e0e7ff;
+  margin-bottom: 4px;
+}
+
+.country-name {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 16px;
+}
+
+.timezone-info {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.flag-emoji {
+  font-size: 32px;
+  margin: 0 8px;
+}
+
+/* Search Input */
+#searchTimezone {
+  background-color: rgb(51, 65, 85);
+  transition: all 0.3s ease;
+}
+
+#searchTimezone:focus {
+  background-color: rgb(71, 85, 105);
+  border-color: rgb(59, 130, 246);
+}
+
+/* Loading State */
+.skeleton-loader {
+  background: linear-gradient(90deg, rgba(100, 116, 139, 0.2) 25%, rgba(100, 116, 139, 0.4) 50%, rgba(100, 116, 139, 0.2) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .timezone-card {
+    padding: 16px;
+  }
+  
+  .digital-clock {
+    font-size: 36px;
+  }
+  
+  .city-name {
+    font-size: 16px;
+  }
+}
