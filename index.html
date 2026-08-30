@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAAS | منصة المقارنة العالمية للأسعار</title>
+    <script src="https://tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <!-- 1. الشريط العلوي (Header) -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- الشعار -->
+            <div class="flex items-center gap-2">
+                <span class="text-3xl font-black tracking-wider text-blue-600">DAAS</span>
+                <span class="text-xs bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded">عالمي</span>
+            </div>
+
+            <!-- الفلاتر العالمية -->
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-center">
+                <div class="flex items-center bg-gray-100 rounded-lg px-3 py-2 text-sm border border-gray-200">
+                    <i class="fa-solid fa-globe text-gray-500 ml-2"></i>
+                    <select id="languageSelect" class="bg-transparent font-medium focus:outline-none cursor-pointer">
+                        <option value="ar">العربية (AR)</option>
+                        <option value="en">English (EN)</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center bg-gray-100 rounded-lg px-3 py-2 text-sm border border-gray-200">
+                    <i class="fa-solid fa-money-bill-wave text-gray-500 ml-2"></i>
+                    <select id="currencySelect" class="bg-transparent font-medium focus:outline-none cursor-pointer">
+                        <option value="SAR">ريال سعودي (SR)</option>
+                        <option value="AED">درهم إماراتي (AED)</option>
+                        <option value="USD">دولار أمريكي ($)</option>
+                        <option value="EUR">يورو (€)</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center bg-gray-100 rounded-lg px-3 py-2 text-sm border border-gray-200">
+                    <i class="fa-solid fa-location-dot text-gray-500 ml-2"></i>
+                    <select id="countrySelect" class="bg-transparent font-medium focus:outline-none cursor-pointer">
+                        <option value="SA">المملكة العربية السعودية</option>
+                        <option value="AE">الإمارات العربية المتحدة</option>
+                        <option value="US">الولايات المتحدة</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. منطقة البحث المركزية -->
+    <section class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-12 px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-4">قارن الأسعار عالمياً في ثوانٍ معدودة</h1>
+            <p class="text-blue-100 mb-8 text-sm md:text-base">ابحث في ملايين المنتجات عبر أشهر المتاجر العالمية ورتبها من الأقل سعراً للأعلى</p>
+            
+            <div class="flex bg-white rounded-full p-2 shadow-xl items-center text-gray-800 max-w-2xl mx-auto border-2 border-transparent focus-within:border-blue-400 transition">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 mr-4 ml-2 text-xl"></i>
+                <input type="text" id="searchInput" placeholder="ما المنتج الذي تبحث عنه؟ (مثال: iPhone 15 Pro)" class="w-full py-2 bg-transparent focus:outline-none text-base font-medium placeholder-gray-400" />
+                <button onclick="performSearch()" class="bg-blue-600 text-white font-bold px-6 py-3 rounded-full hover:bg-blue-700 transition hidden sm:block">ابحث الآن</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. قسم النتائج والفلاتر -->
+    <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- الفلاتر -->
+        <aside class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-fit lg:sticky lg:top-24">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+                <h2 class="font-bold text-lg flex items-center gap-2 text-gray-900">
+                    <i class="fa-solid fa-sliders text-blue-600"></i> فلاتر البحث
+                </h2>
+                <button onclick="resetFilters()" class="text-xs text-blue-600 font-semibold hover:underline">إعادة ضبط</button>
+            </div>
+
+            <!-- ترتيب النتائج -->
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-gray-700 mb-2">ترتيب النتائج:</label>
+                <select id="sortSelect" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <option value="price_asc">السعر: من الأقل إلى الأعلى</option>
+                    <option value="price_desc">السعر: من الأعلى إلى الأقل</option>
+                    <option value="rating">الأعلى تقييماً</option>
+                </select>
+            </div>
+
+            <!-- نطاق السعر -->
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-gray-700 mb-2">نطاق السعر</label>
+                <div class="flex items-center gap-2">
+                    <input type="number" id="priceMin" placeholder="من" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-center text-sm focus:outline-none focus:border-blue-500">
+                    <span class="text-gray-400 text-xs">إلى</span>
+                    <input type="number" id="priceMax" placeholder="إلى" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-center text-sm focus:outline-none focus:border-blue-500">
+                </div>
+            </div>
+
+            <!-- المتاجر -->
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-gray-700 mb-3">المتاجر العالمية</label>
+                <div class="space-y-2">
+                    <label class="flex items-center text-sm font-medium cursor-pointer text-gray-600 hover:text-gray-900">
+                        <input type="checkbox" value="amazon" checked class="store-filter w-4 h-4 text-blue-600 border-gray-300 rounded ml-2 focus:ring-blue-500">
+                        أمازون (Amazon)
+                    </label>
+                    <label class="flex items-center text-sm font-medium cursor-pointer text-gray-600 hover:text-gray-900">
+                        <input type="checkbox" value="ebay" checked class="store-filter w-4 h-4 text-blue-600 border-gray-300 rounded ml-2 focus:ring-blue-500">
+                        إيباي (eBay)
+                    </label>
+                    <label class="flex items-center text-sm font-medium cursor-pointer text-gray-600 hover:text-gray-900">
+                        <input type="checkbox" value="aliexpress" checked class="store-filter w-4 h-4 text-blue-600 border-gray-300 rounded ml-2 focus:ring-blue-500">
+                        علي إكسبريس (AliExpress)
+                    </label>
+                </div>
+            </div>
+
+            <!-- حالة المنتج -->
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-3">حالة المنتج</label>
+                <div class="space-y-2">
+                    <label class="flex items-center text-sm font-medium cursor-pointer text-gray-600">
+                        <input type="radio" name="condition" value="all" checked class="w-4 h-4 text-blue-600 border-gray-300 ml-2">
+                        الكل
+                    </label>
+                    <label class="flex items-center text-sm font-medium cursor-pointer text-gray-600">
+                        <input type="radio" name="condition" value="new" class="w-4 h-4 text-blue-600 border-gray-300 ml-2">
+                        جديد فقط
+                    </label>
+                    <label class="flex items-center text-sm font-medium cursor-pointer text-gray-600">
+                        <input type="radio" name="condition" value="used" class="w-4 h-4 text-blue-600 border-gray-300 ml-2">
+                        مستعمل / مجدد
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- منطقة النتائج -->
+        <div class="lg:col-span-3">
+            <div class="flex justify-between items-center mb-6">
+                <p class="text-sm text-gray-500 font-medium">تم العثور على <span id="resultCount" class="text-gray-800 font-bold">0</span> نتائج</p>
+            </div>
+
+            <!-- شبكة المنتجات -->
+            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- سيتم ملء المنتجات هنا بواسطة JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-white font-bold mb-4">عن DAAS</h3>
+                    <p class="text-sm">منصة عالمية للمقارنة بين أسعار المنتجات في جميع المتاجر العالمية</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4">الروابط السريعة</h3>
+                    <ul class="text-sm space-y-2">
+                        <li><a href="#" class="hover:text-white transition">الرئيسية</a></li>
+                        <li><a href="#" class="hover:text-white transition">حول</a></li>
+                        <li><a href="#" class="hover:text-white transition">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4">البرنامج الاستشاري</h3>
+                    <ul class="text-sm space-y-2">
+                        <li><a href="#" class="hover:text-white transition">انضم للأفلييت</a></li>
+                        <li><a href="#" class="hover:text-white transition">شروط الخدمة</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4">تابعنا</h3>
+                    <div class="flex gap-4 text-lg">
+                        <a href="#" class="hover:text-white transition"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <p>&copy; 2024 DAAS - جميع الحقوق محفوظة</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

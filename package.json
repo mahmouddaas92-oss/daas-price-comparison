@@ -1,0 +1,25 @@
+{
+  "name": "daas-price-comparison",
+  "version": "1.0.0",
+  "description": "منصة DAAS - محرك بحث عالمي للمقارنة بين أسعار المنتجات في جميع المتاجر العالمية",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server",
+    "dev": "live-server",
+    "build": "echo 'Build script not yet configured'"
+  },
+  "keywords": [
+    "price-comparison",
+    "shopping",
+    "affiliate",
+    "e-commerce",
+    "amazon",
+    "ebay",
+    "aliexpress"
+  ],
+  "author": "mahmouddaas92-oss",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
